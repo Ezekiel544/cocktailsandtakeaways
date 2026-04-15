@@ -12,11 +12,12 @@ export const metadata: Metadata = {
   description: 'Discover the best concerts, festivals, and live events. Get tickets to see your favorite artists perform live.',
   openGraph: {
     title: 'Live Nation | Concerts & Events',
-    description: 'Discover the best concerts, festivals, and live events.',
+    description: 'Discover the best concerts, festivals, and live events. Get tickets to see your favorite artists perform live.',
     url: 'https://cocktailsandtakeaways.vercel.app',
+    siteName: 'cocktailsandtakeaways',
     images: [
       {
-        url: '/og-image.png',  
+        url: '/og-image.png',
         width: 1200,
         height: 630,
       }
