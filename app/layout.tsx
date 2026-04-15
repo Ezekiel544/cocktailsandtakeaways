@@ -10,6 +10,18 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: 'Live Nation | Concerts & Events',
   description: 'Discover the best concerts, festivals, and live events. Get tickets to see your favorite artists perform live.',
+  openGraph: {
+    title: 'Live Nation | Concerts & Events',
+    description: 'Discover the best concerts, festivals, and live events.',
+    url: 'https://cocktailsandtakeaways.vercel.app',
+    images: [
+      {
+        url: '/og-image.png',  
+        width: 1200,
+        height: 630,
+      }
+    ],
+  },
   icons: {
     icon: '/icon.svg',
     apple: '/icon.svg',
