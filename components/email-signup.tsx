@@ -10,16 +10,42 @@ export function EmailSignup() {
   const [email, setEmail] = useState("")
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!firstName || !email) return
-    
+
     setIsLoading(true)
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    setIsLoading(false)
-    setIsSubmitted(true)
+    setError("")
+
+    try {
+      const res = await fetch("/api/signups", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ firstName, email }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        setError(data.error || "Something went wrong. Please try again.")
+        return
+      }
+
+      setIsSubmitted(true)
+
+      setTimeout(() => {
+        setIsSubmitted(false)
+        setFirstName("")
+        setEmail("")
+      }, 4000)
+
+    } catch {
+      setError("Network error. Please check your connection and try again.")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -37,7 +63,7 @@ export function EmailSignup() {
                     Join our exclusive list and get early access to tickets, special offers, and event announcements.
                   </p>
                 </div>
-                
+
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="flex flex-col sm:flex-row gap-4">
                     <div className="relative flex-1">
@@ -63,7 +89,11 @@ export function EmailSignup() {
                       />
                     </div>
                   </div>
-                  
+
+                  {error && (
+                    <p className="text-red-400 text-sm text-center">{error}</p>
+                  )}
+
                   <Button
                     type="submit"
                     disabled={isLoading}
@@ -85,7 +115,7 @@ export function EmailSignup() {
                     )}
                   </Button>
                 </form>
-                
+
                 <p className="text-center text-muted-foreground text-xs sm:text-sm mt-4">
                   By signing up, you agree to receive email updates. Unsubscribe anytime.
                 </p>
@@ -98,6 +128,9 @@ export function EmailSignup() {
                 <h3 className="text-2xl font-bold text-white mb-2">You&apos;re on the List!</h3>
                 <p className="text-muted-foreground">
                   Thanks for signing up, {firstName}! We&apos;ll keep you updated on the latest events.
+                </p>
+                <p className="text-muted-foreground/50 text-xs mt-4">
+                  This form will reset in a few seconds...
                 </p>
               </div>
             )}
